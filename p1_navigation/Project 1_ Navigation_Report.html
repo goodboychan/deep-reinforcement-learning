@@ -1,0 +1,57 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Project 1: Navigation.md</title><style></style></head><body id="preview">
+<h1 class="code-line" data-line-start=4 data-line-end=5><a id="Project_1_Navigation_4"></a>Project 1: Navigation</h1>
+<h3 class="code-line" data-line-start=6 data-line-end=7><a id="Introduction_6"></a>Introduction</h3>
+<p class="has-line-data" data-line-start="8" data-line-end="10">In this project, I tried to implement Deep Q-Network (DQN) Agent, one of most common value-based deep reinforcement learning algorithm.<br>
+The problem I solve is to collect yellow bananas in the large,square world.</p>
+<p class="has-line-data" data-line-start="11" data-line-end="12"><img src="https://user-images.githubusercontent.com/10624937/42135619-d90f2f28-7d12-11e8-8823-82b970a54d7e.gif" alt="Trained Agent" title="Trained Agent"></p>
+<p class="has-line-data" data-line-start="13" data-line-end="14">A reward of +1 is provided for collecting a yellow banana, and a reward of -1 is provided for collecting a blue banana. Thus, the goal of your agent is to collect as many yellow bananas as possible while avoiding blue bananas.</p>
+<p class="has-line-data" data-line-start="15" data-line-end="16">The state space has 37 dimensions and contains the agent’s velocity, along with ray-based perception of objects around agent’s forward direction. Given this information, the agent has to learn how to best select actions. Four discrete actions are available, corresponding to:</p>
+<ul>
+<li class="has-line-data" data-line-start="16" data-line-end="17"><strong><code>0</code></strong> - move forward.</li>
+<li class="has-line-data" data-line-start="17" data-line-end="18"><strong><code>1</code></strong> - move backward.</li>
+<li class="has-line-data" data-line-start="18" data-line-end="19"><strong><code>2</code></strong> - turn left.</li>
+<li class="has-line-data" data-line-start="19" data-line-end="21"><strong><code>3</code></strong> - turn right.</li>
+</ul>
+<p class="has-line-data" data-line-start="21" data-line-end="23">The task is episodic, and in order to solve the environment, your agent must get an average score of +13 over 100 consecutive episodes.<br>
+And my agent can get 24 rewards with trained model.</p>
+<h3 class="code-line" data-line-start=24 data-line-end=25><a id="Process_24"></a>Process</h3>
+<p class="has-line-data" data-line-start="26" data-line-end="27">I followed several steps to implement DQN agent. All codes and archiecture is based on previous code example ‘DQN on LunarLander-v2’</p>
+<ol>
+<li class="has-line-data" data-line-start="28" data-line-end="29">Define neural network architecture</li>
+</ol>
+<ul>
+<li class="has-line-data" data-line-start="29" data-line-end="31">I tried to use simple neural network that consists of fully-connected layer. Since this environment has discrete state space and discrete action space, so we don’t need complex architecture. So I used 4 fc layers (state-in-value-out architecture) and ReLU activation function.</li>
+</ul>
+<ol start="2">
+<li class="has-line-data" data-line-start="31" data-line-end="32">Define Experience Replay buffer.</li>
+</ol>
+<ul>
+<li class="has-line-data" data-line-start="32" data-line-end="33">DQN use off-policy TD target. That is, we can train it with sampling data in offline manners. And to enhance the sampling efficiency, we can store the experience tuple that face previousely and sample it for training.</li>
+<li class="has-line-data" data-line-start="33" data-line-end="35">Usually, sampling size (also known as batch size) is a hyperparameter.</li>
+</ul>
+<ol start="3">
+<li class="has-line-data" data-line-start="35" data-line-end="36">Define Agent</li>
+</ol>
+<ul>
+<li class="has-line-data" data-line-start="36" data-line-end="37">In the original DQN paper, there are two identical networks, local network and target network. While the agent is trained with local network, the target network is fixed to make fixed target. It makes RL problem a sort of Supervised Learning. Of course, it requires several hyperparameters such as how long the period do we have to update the target network, or total size of epoch, buffer size to store and sample the experience tuple and so on.</li>
+<li class="has-line-data" data-line-start="37" data-line-end="38">At first, I used same hyperparameter on code example ‘LunarLander-v2’. But I found that the state space in ‘BananaWorld’ is larger than ‘LunarLander’. So I increased the batch size from 64 to 128. And I thought that as the larger as the state space is, the training is much harder. So it requires to fix the target much longer, and I changed the update period from 4 to 8</li>
+<li class="has-line-data" data-line-start="38" data-line-end="40">I follow the same agent architecture from previous code example.</li>
+</ul>
+<ol start="4">
+<li class="has-line-data" data-line-start="40" data-line-end="41">Training</li>
+</ol>
+<ul>
+<li class="has-line-data" data-line-start="41" data-line-end="42">At last, the agent is played in training mode. I ran the 2000 episodes and when the average reward in 100 consequence step is larger than 16.3, then the training step stopped.</li>
+<li class="has-line-data" data-line-start="42" data-line-end="43">When the training is terminated successfully, I save the network model. We don’t have whole network model, but model’s weight with dictionary type.</li>
+<li class="has-line-data" data-line-start="43" data-line-end="45">It takes almost 1000 episodes.</li>
+</ul>
+<ol start="5">
+<li class="has-line-data" data-line-start="45" data-line-end="46">Measure the performance under test mode.</li>
+</ol>
+<ul>
+<li class="has-line-data" data-line-start="46" data-line-end="47">I load the network model’s weight on initial local network, and test it until its done.</li>
+<li class="has-line-data" data-line-start="47" data-line-end="49">The trained model can get 24.0 reward.</li>
+</ul>
+<h3 class="code-line" data-line-start=49 data-line-end=50><a id="Lesson_Learned_49"></a>Lesson Learned</h3>
+<p class="has-line-data" data-line-start="51" data-line-end="52">Of course, neural network architecture is important to solve the problem, but one of challengeable problem is tuning the hyperparameter. And it depends on the the environment that agent faced. It will be helpful to use traditional hyperparameter optimization like grid search or bayes optimization.</p>
+</body></html>
