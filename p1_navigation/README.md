@@ -70,6 +70,7 @@ I followed several steps to implement DQN agent. All codes and archiecture is ba
   - When the training is terminated successfully, I save the network model. We don't have whole network model, but model's weight with dictionary type.
   - It takes almost 1000 episodes.
   - plot for rewards per episode
+
   ![image2](./DQN_result.png "Fig. reward per episode")
   
 5. Measure the performance under test mode.
