@@ -40,7 +40,7 @@ There are some [requirements](https://github.com/udacity/deep-reinforcement-lear
 Once you prepare the development environment, please follow the step in [here](https://github.com/udacity/deep-reinforcement-learning/tree/master/p1_navigation#getting-started)!
 After you have followed the instructions above, open `Navigation.ipynb` (located in the `p1_navigation/`) through jupyter notebook and follow the instructions to learn how to use the Python API to control the agent.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/ltz2GhFv04A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![Instruction](https://img.youtube.com/vi/ltz2GhFv04A/0.jpg)](https://www.youtube.com/watch?v=ltz2GhFv04A&t=1s)
 
 ### Process
 
