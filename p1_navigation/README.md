@@ -48,6 +48,10 @@ I followed several steps to implement DQN agent. All codes and archiecture is ba
 
 1. Define neural network architecture
   - I tried to use simple neural network that consists of fully-connected layer. Since this environment has discrete state space(37 dimensions) and discrete action space(4), so we don't need complex architecture. So I used 4 fc layers (state-in-value-out architecture) (64-128-64 nodes for each hidden layer) and ReLU activation function.
+    - Input Layer: Fully Connected Layer (in:state_size, out:64) with ReLU activation
+    - 1st hidden Layer: Fully Connected Layer (in:64, out:128) with ReLU activation
+    - 2nd hidden Layer: Fully Connected Layer (in:128, out:64) with ReLU activation
+    - Output Layer: Fully Connected Layer (in:64, out:action_size)
   
 2. Define Experience Replay buffer.
   - DQN use off-policy TD target. That is, we can train it with sampling data in offline manners. And to enhance the sampling efficiency, we can store the experience tuple that face previousely and sample it for training.
@@ -71,7 +75,7 @@ I followed several steps to implement DQN agent. All codes and archiecture is ba
   - It takes almost 1000 episodes.
   - plot for rewards per episode
 
-  ![image2](./DQN_result.png "Fig. reward per episode")
+  ![image2](https://raw.githubusercontent.com/goodboychan/deep-reinforcement-learning/master/p1_navigation/DQN_result.png "Fig. reward per episode")
   
 5. Measure the performance under test mode.
   - I load the network model's weight on initial local network, and test it until its done. 
